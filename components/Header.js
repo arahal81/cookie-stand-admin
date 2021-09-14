@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Header(props) {
   return (
     <header className="p-4 bg-green-500 text-3xl ">

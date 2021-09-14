@@ -1,11 +1,9 @@
-import React from "react";
-
 export default function Form(props) {
   return (
     <div>
       <form
         className="grid items-center justify-center grid-cols-4 gap-5 p-5 mx-20 my-4 text-center bg-green-200 border-2 border-green-400 rounded-lg text-md gap-x-8"
-        onSubmit={props.submitHandler}
+        onSubmit={props.submitBranchHandler}
       >
         <div className="flex flex-col col-span-8 mb-4 ">
           <label
@@ -20,6 +18,7 @@ export default function Form(props) {
             name="location"
             id="location"
             placeholder="Cookie Stand Location"
+            onChange={props.changeHandler}
           />
         </div>
 
@@ -35,6 +34,7 @@ export default function Form(props) {
             type="number"
             name="minCustomers"
             id="minCustomers"
+            onChange={props.changeHandler}
           />
         </div>
 
@@ -50,6 +50,7 @@ export default function Form(props) {
             type="number"
             name="maxCustomers"
             id="maxCustomers"
+            onChange={props.changeHandler}
           />
         </div>
 
@@ -65,6 +66,7 @@ export default function Form(props) {
             type="number"
             name="avgCookies"
             id="avgCookies"
+            onChange={props.changeHandler}
           />
         </div>
 
