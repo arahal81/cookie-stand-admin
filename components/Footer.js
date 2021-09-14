@@ -1,5 +1,9 @@
-import React from "react";
 
-export default function Footer() {
-  return <footer className="mb-30 p-4 bg-green-500">&copy;2021</footer>;
+export default function Footer(props) {
+  return (
+    <footer className="flex items-center justify-between p-4 font-medium bg-green-500">
+      {props.branshesNumber} Locations World Wide
+    </footer>
+  );
+
 }
