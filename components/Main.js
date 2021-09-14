@@ -1,3 +1,4 @@
+
 import Form from "./Form";
 import ReportTable from "./ReportTable";
 export default function Main(props) {
@@ -28,5 +29,6 @@ export default function Main(props) {
         />
       )}
     </>
+
   );
 }
