@@ -5,14 +5,14 @@ import Form from "../components/Form";
 import { useState } from "react";
 import Main from "../components/Main";
 export default function Home() {
-  const changebranch = {
-    id: 1,
-    location: "",
-    maxCustomers: 0,
-    minCustomers: 0,
-    avgCookies: 0,
-  };
-  const [branchesdeatail, setBranchesDeatail] = useState(changebranch);
+  // const changebranch = {
+  //   id: 1,
+  //   location: "",
+  //   maxCustomers: 0,
+  //   minCustomers: 0,
+  //   avgCookies: 0,
+  // };
+  const [branchesdeatail, setBranchesDeatail] = useState([]);
 
   function submitBranchHandler(event) {
     event.preventDefault();
@@ -20,24 +20,22 @@ export default function Home() {
     console.log("submit");
     const branch = {
       location: event.target.location.value,
-      minCustomers: event.target.minCustomers.value,
-      maxCustomers: event.target.maxCustomers.value,
-      avgCookies: event.target.avgCookies.value,
+      minCustomers: event.target.minCustomers.value || 0,
+      maxCustomers: event.target.maxCustomers.value || 0,
+      avgCookies: event.target.avgCookies.value || 0,
       id: branchesdeatail.length + 1,
     };
 
-    const { name, value } = branch;
-
-    setBranchesDeatail({ ...branchesdeatail, [name]: value });
-    console.log(branchesdeatail);
+    setBranchesDeatail([...branchesdeatail, branch]);
+    console.log(branch);
     // setBranches((branches) => [...branches, branch]);
   }
 
-  function changeHandler(event) {
-    event.preventDefault();
-    const { name, value } = event.target;
-    setBranchesDeatail({ ...branchesdeatail, [name]: value });
-  }
+  // function changeHandler(event) {
+  //   event.preventDefault();
+  //   const { name, value } = event.target;
+  //   setBranchesDeatail({ ...branchesdeatail, [name]: value });
+  // }
   return (
     <div>
       <Head>
@@ -47,7 +45,7 @@ export default function Home() {
       <Header title="Cookie Stand Admin" />
       <Form
         submitBranchHandler={submitBranchHandler}
-        changeHandler={changeHandler}
+        // changeHandler={changeHandler}
       />
       <Main branches={branchesdeatail} />
       <Footer />

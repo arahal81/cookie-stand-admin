@@ -18,7 +18,7 @@ export default function Form(props) {
             name="location"
             id="location"
             placeholder="Cookie Stand Location"
-            onChange={props.changeHandler}
+            // onChange={props.changeHandler}
           />
         </div>
 
@@ -34,7 +34,7 @@ export default function Form(props) {
             type="number"
             name="minCustomers"
             id="minCustomers"
-            onChange={props.changeHandler}
+            // onChange={props.changeHandler}
           />
         </div>
 
@@ -50,7 +50,7 @@ export default function Form(props) {
             type="number"
             name="maxCustomers"
             id="maxCustomers"
-            onChange={props.changeHandler}
+            // onChange={props.changeHandler}
           />
         </div>
 
@@ -66,7 +66,7 @@ export default function Form(props) {
             type="number"
             name="avgCookies"
             id="avgCookies"
-            onChange={props.changeHandler}
+            // onChange={props.changeHandler}
           />
         </div>
 
