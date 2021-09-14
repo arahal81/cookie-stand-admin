@@ -1,3 +1,5 @@
+import Form from "./Form";
+import ReportTable from "./ReportTable";
 export default function Main(props) {
   // const branches = {
   //   id: props.branches.id,
@@ -9,18 +11,22 @@ export default function Main(props) {
   // console.log(props.branches.avgCookies);
 
   return (
-    <dev>
-      <div className="flex flex-col mb-8 text-center">
-        <placeholder className="mb-8">Report Table Coming Soon...</placeholder>
-
-        {props.branches.map((item) => (
-          <placeholder>
-            id: {item.id}, location: {item.location} , maxCustomers:
-            {item.maxCustomers} , minCustomers: {item.minCustomers}, avgCookies:
-            {item.avgCookies},
-          </placeholder>
-        ))}
-      </div>
-    </dev>
+    <>
+      <Form submitBranchHandler={props.submitBranchHandler} />
+      {props.storesSalesAllHours.length === 0 ? (
+        <h2 className="mt-8 mb-8 ml-auto mr-auto text-center w-5/6">
+          No Cookie Stands Available
+        </h2>
+      ) : (
+        <ReportTable
+          storesSalesAllHours={props.storesSalesAllHours}
+          timeSlot={props.timeSlot}
+          branches={props.branches}
+          getTotalCookies={props.getTotalCookies}
+          getHourlyAllBranchesSubtotal={props.getHourlyAllBranchesSubtotal}
+          totalOfTotals={props.totalOfTotals}
+        />
+      )}
+    </>
   );
 }
