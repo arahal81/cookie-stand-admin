@@ -1,18 +1,41 @@
+import { useState, useEffect } from "react";
+import useSWR from "swr";
+import {
+  CookieStand,
+  fetchWithToken,
+  postWithToken,
+  deleteWithToken,
+  apiUrl,
+} from "../assets/fetcher";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Head from "next/head";
-import { useState } from "react";
+
 import Main from "../components/Main";
 import { timeSlot } from "../assets/data";
-export default function CookieStandAdmin() {
+
+export default function CookieStandAdmin(props) {
   //   const [branchesdeatail, setBranchesDeatail] = useState([]);
   const [storesSalesAllHours, setStoresSalesAllHours] = useState([]);
+  const { data, error, mutate } = useSWR([apiUrl, props.token], fetchWithToken);
 
-  function onCreate(event) {
+  const [cookieStands, setCookieStands] = useState([]);
+
+  useEffect(() => {
+    if (!data) return;
+    setCookieStands(data);
+  }, [data]);
+
+  if (error) return <h2>Ruh Roh</h2>;
+  if (!data) return <h2>Loading...</h2>;
+
+  async function createHandler(event) {
     event.preventDefault();
-
-    const newStore = {
+    const values = {
       location: event.target.location.value,
+      minimum_customers_per_hour: event.target.minCustomers.value,
+      maximum_customers_per_hour: event.target.avgCookies.value,
+      average_cookies_per_sale: event.target.avgCookies.value,
       hourly_sales: getCookieSalesHourly(
         event.target.minCustomers.value,
         event.target.maxCustomers.value,
@@ -20,9 +43,47 @@ export default function CookieStandAdmin() {
         timeSlot.length
       ),
     };
+    const newStand = CookieStand.fromValues(values);
 
-    setStoresSalesAllHours([...storesSalesAllHours, newStore]);
+    newStand.location += "..."; // Add the ... to show loading state
+
+    const updatedStands = [newStand, ...cookieStands];
+
+    mutate(updatedStands, false);
+
+    await postWithToken(props.token, values);
+
+    mutate();
   }
+
+  async function deleteHandler(stand) {
+    const updatedStands = cookieStands.filter(
+      (storedStand) => storedStand.id !== stand.id
+    );
+
+    mutate(updatedStands, false);
+
+    await deleteWithToken(stand.id, props.token);
+
+    mutate(async (stands) => {
+      return stands.filter((candidate) => candidate.id !== stand.id);
+    });
+  }
+  // function onCreate(event) {
+  //   event.preventDefault();
+
+  //   const newStore = {
+  //     location: event.target.location.value,
+  //     hourly_sales: getCookieSalesHourly(
+  //       event.target.minCustomers.value,
+  //       event.target.maxCustomers.value,
+  //       event.target.avgCookies.value,
+  //       timeSlot.length
+  //     ),
+  //   };
+
+  //   setStoresSalesAllHours([...storesSalesAllHours, newStore]);
+  // }
 
   function getCookieSalesHourly(min, max, avg, length) {
     var store_sales = [];
@@ -54,6 +115,7 @@ export default function CookieStandAdmin() {
   }
 
   function getHourlySubtotals(hours, sales) {
+    console.log(sales);
     var hourly_subtotals = [];
     for (var i = 0; i < hours.length; i++) {
       var hour_subtotal = 0;
@@ -83,19 +145,24 @@ export default function CookieStandAdmin() {
 
       <Main
         // branches={branchesdeatail}
-        submitBranchHandler={onCreate}
+        // submitBranchHandler={onCreate}
+        submitBranchHandler={createHandler}
         timeSlot={timeSlot}
-        storesSalesAllHours={storesSalesAllHours}
+        // storesSalesAllHours={storesSalesAllHours}
+        stands={cookieStands}
+        onDelete={deleteHandler}
         getTotalCookies={getTotalCookies}
         getHourlyAllBranchesSubtotal={getHourlySubtotals(
           timeSlot,
-          storesSalesAllHours
+          cookieStands
         )}
+        username={props.username}
+        onLogout={props.onLogout}
         totalOfTotals={getTotalCookies(
-          getHourlySubtotals(timeSlot, storesSalesAllHours)
+          getHourlySubtotals(timeSlot, cookieStands)
         )}
       />
-      <Footer branshesNumber={storesSalesAllHours.length} />
+      <Footer branshesNumber={cookieStands.length} />
     </div>
   );
 }
