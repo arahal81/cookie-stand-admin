@@ -1,11 +1,9 @@
 import axios from "axios";
 
-// TODO: ask API team to supply hours array
 import { timeSlot } from "../assets/data";
 export const apiUrl =
   "https://cookie-stand-api-lab34.herokuapp.com/api/v1/cookie_stands/";
 
-// Common practice to have a "Data Access Object" to encapsulate fetched data
 export class CookieStand {
   constructor(info) {
     this.id = info.id;
@@ -19,7 +17,7 @@ export class CookieStand {
   static fromValues(values) {
     console.log(values);
     const info = {
-      id: -1, // will be overwritten once cache revalidates
+      id: -1,
       location: values.location,
       minimum_customers_per_hour: values.minimum_customers_per_hour,
       maximum_customers_per_hour: values.maximum_customers_per_hour,
@@ -55,7 +53,6 @@ export async function fetchWithToken(url, token) {
   console.log(response.data);
   const stands = response.data.map((info) => new CookieStand(info));
 
-  // Sort alphabetically
   stands.sort((a, b) => {
     if (a.location < b.location) return -1;
     if (a.location > b.location) return 1;
@@ -65,10 +62,9 @@ export async function fetchWithToken(url, token) {
   return stands;
 }
 
-// POST to API with authentication
 export async function postWithToken(token, values) {
   const body = {
-    id: -1, // will be overwritten once cache revalidates
+    id: -1,
     location: values.location,
     minimum_customers_per_hour: values.minimum_customers_per_hour,
     maximum_customers_per_hour: values.maximum_customers_per_hour,
@@ -91,7 +87,6 @@ export async function deleteWithToken(id, token) {
   await axios.delete(url, config);
 }
 
-// helper function to handle getting Authorization headers EXACTLY right
 function makeConfig(token) {
   return {
     headers: {

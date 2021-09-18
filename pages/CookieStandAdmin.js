@@ -150,8 +150,6 @@ export default function CookieStandAdmin(props) {
       />
 
       <Main
-        // branches={branchesdeatail}
-        // submitBranchHandler={onCreate}
         submitBranchHandler={createHandler}
         timeSlot={timeSlot}
         storesSalesAllHours={storesSalesAllHours}
