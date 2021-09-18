@@ -19,6 +19,8 @@ export default function Main(props) {
         </h2>
       ) : (
         <ReportTable
+          stands={props.stands}
+          deleteHandler={props.deleteHandler}
           storesSalesAllHours={props.storesSalesAllHours}
           timeSlot={props.timeSlot}
           branches={props.branches}

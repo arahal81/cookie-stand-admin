@@ -26,15 +26,16 @@ export default function CookieStandAdmin(props) {
     setCookieStands(data);
   }, [data]);
 
-  if (error) return <h2>Ruh Roh</h2>;
+  if (error) return <h2>Error while fetching</h2>;
   if (!data) return <h2>Loading...</h2>;
 
   async function createHandler(event) {
     event.preventDefault();
+
     const values = {
       location: event.target.location.value,
       minimum_customers_per_hour: event.target.minCustomers.value,
-      maximum_customers_per_hour: event.target.avgCookies.value,
+      maximum_customers_per_hour: event.target.maxCustomers.value,
       average_cookies_per_sale: event.target.avgCookies.value,
       hourly_sales: getCookieSalesHourly(
         event.target.minCustomers.value,
@@ -43,6 +44,7 @@ export default function CookieStandAdmin(props) {
         timeSlot.length
       ),
     };
+    console.log(values);
     const newStand = CookieStand.fromValues(values);
 
     newStand.location += "..."; // Add the ... to show loading state
@@ -141,16 +143,20 @@ export default function CookieStandAdmin(props) {
         <title>Cookie Stand Admin</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="Cookie Stand Admin" />
+      <Header
+        logoutHandler={props.logoutHandler}
+        username={props.username}
+        title="Cookie Stand Admin"
+      />
 
       <Main
         // branches={branchesdeatail}
         // submitBranchHandler={onCreate}
         submitBranchHandler={createHandler}
         timeSlot={timeSlot}
-        // storesSalesAllHours={storesSalesAllHours}
+        storesSalesAllHours={storesSalesAllHours}
         stands={cookieStands}
-        onDelete={deleteHandler}
+        deleteHandler={deleteHandler}
         getTotalCookies={getTotalCookies}
         getHourlyAllBranchesSubtotal={getHourlySubtotals(
           timeSlot,

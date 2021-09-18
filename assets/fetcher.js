@@ -10,13 +10,10 @@ export class CookieStand {
   constructor(info) {
     this.id = info.id;
     this.location = info.location;
-    this.minCustomersPerHour = info.minimum_customers_per_hour;
-    this.maxCustomersPerHour = info.maximum_customers_per_hour;
-    this.avgCookiesPerSale = info.average_cookies_per_sale;
-    this.cookiesEachHour = info.hourly_sales || [...timeSlot].fill(0);
-    this.totalDailyCookies = this.cookiesEachHour.reduce(
-      (sum, val) => sum + val
-    );
+    this.minimum_customers_per_hour = info.minimum_customers_per_hour;
+    this.maximum_customers_per_hour = info.maximum_customers_per_hour;
+    this.average_cookies_per_sale = info.average_cookies_per_sale;
+    this.hourly_sales = info.hourly_sales || [...timeSlot].fill(0);
   }
 
   static fromValues(values) {
@@ -24,9 +21,10 @@ export class CookieStand {
     const info = {
       id: -1, // will be overwritten once cache revalidates
       location: values.location,
-      minimum_customers_per_hour: values.minCustomers,
-      maximum_customers_per_hour: values.maxCustomers,
-      average_cookies_per_sale: values.avgCookies,
+      minimum_customers_per_hour: values.minimum_customers_per_hour,
+      maximum_customers_per_hour: values.maximum_customers_per_hour,
+      average_cookies_per_sale: values.average_cookies_per_sale,
+      hourly_sales: values.hourly_sales,
     };
 
     return new CookieStand(info);
@@ -36,7 +34,7 @@ export class CookieStand {
 // get a JSON Web Token from server
 export async function getToken(values) {
   const url = "https://cookie-stand-api-lab34.herokuapp.com/api/token/";
-
+  console.log(values);
   const response = await axios.post(url, values);
 
   const refreshUrl =
@@ -54,7 +52,7 @@ export async function fetchWithToken(url, token) {
   const config = makeConfig(token);
 
   const response = await axios.get(url, config);
-
+  console.log(response.data);
   const stands = response.data.map((info) => new CookieStand(info));
 
   // Sort alphabetically
@@ -63,7 +61,7 @@ export async function fetchWithToken(url, token) {
     if (a.location > b.location) return 1;
     return 0;
   });
-
+  console.log(stands);
   return stands;
 }
 
@@ -72,9 +70,10 @@ export async function postWithToken(token, values) {
   const body = {
     id: -1, // will be overwritten once cache revalidates
     location: values.location,
-    minimum_customers_per_hour: values.min,
-    maximum_customers_per_hour: values.max,
-    average_cookies_per_sale: values.avg,
+    minimum_customers_per_hour: values.minimum_customers_per_hour,
+    maximum_customers_per_hour: values.maximum_customers_per_hour,
+    average_cookies_per_sale: values.average_cookies_per_sale,
+    hourly_sales: values.hourly_sales,
   };
 
   const config = makeConfig(token);

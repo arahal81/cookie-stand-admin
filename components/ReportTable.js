@@ -1,3 +1,4 @@
+import { AiTwotoneDelete } from "react-icons/ai";
 export default function ReportTable(props) {
   return (
     // <div className="flex flex-col mb-8 text-center">
@@ -22,6 +23,7 @@ export default function ReportTable(props) {
     //       <th className="border border-gray-700">Total</th>
     //     </tr>
     //   </thead>
+
     <table className="p-1 mt-8 mb-8 ml-auto mr-auto w-5/6 h-auto text-center self-center">
       <thead className="bg-green-500">
         <tr>
@@ -33,14 +35,22 @@ export default function ReportTable(props) {
         </tr>
       </thead>
       <tbody>
-        {props.storesSalesAllHours.map((store) => (
+        {props.stands.map((stand) => (
           <tr className="odd:bg-green-400 even:bg-green-200">
-            <td className="border border-gray-700">{store.location}</td>
-            {store.hourly_sales.map((cookies) => (
+            <td className=" border flex pl-2 border-gray-700">
+              {stand.location}
+              <span
+                onClick={() => props.deleteHandler(stand)}
+                className="pl-2 "
+              >
+                {stand && <AiTwotoneDelete />}
+              </span>
+            </td>
+            {stand.hourly_sales.map((cookies) => (
               <td className="border border-gray-700">{cookies}</td>
             ))}
             <td className="border border-gray-700">
-              {props.getTotalCookies(store.hourly_sales)}
+              {props.getTotalCookies(stand.hourly_sales)}
             </td>
           </tr>
         ))}
@@ -50,7 +60,7 @@ export default function ReportTable(props) {
         {props.getHourlyAllBranchesSubtotal.map((subtotal) => (
           <th className="border border-gray-700">{subtotal}</th>
         ))}
-        <th className="border border-gray-700">{props.totalOfTotals}</th>
+        <th className="border border-gray-700">{props.totalOfTotals} </th>
       </tfoot>
     </table>
   );

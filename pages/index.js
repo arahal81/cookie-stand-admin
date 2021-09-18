@@ -22,10 +22,10 @@ export default function Home() {
   return token ? (
     <CookieStandAdmin
       token={token}
-      onLogout={logoutHandler}
+      logoutHandler={logoutHandler}
       username={username}
     />
   ) : (
-    <LoginForm onSubmit={loginHandler} />
+    <LoginForm loginHandler={loginHandler} />
   );
 }
