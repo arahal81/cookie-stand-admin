@@ -1,4 +1,6 @@
+
 import { AiTwotoneDelete } from "react-icons/ai";
+
 export default function ReportTable(props) {
   return (
     // <div className="flex flex-col mb-8 text-center">
@@ -35,6 +37,7 @@ export default function ReportTable(props) {
         </tr>
       </thead>
       <tbody>
+
         {props.stands.map((stand) => (
           <tr className="odd:bg-green-400 even:bg-green-200">
             <td className=" border flex pl-2 border-gray-700">
@@ -51,6 +54,7 @@ export default function ReportTable(props) {
             ))}
             <td className="border border-gray-700">
               {props.getTotalCookies(stand.hourly_sales)}
+
             </td>
           </tr>
         ))}
@@ -61,6 +65,7 @@ export default function ReportTable(props) {
           <th className="border border-gray-700">{subtotal}</th>
         ))}
         <th className="border border-gray-700">{props.totalOfTotals} </th>
+
       </tfoot>
     </table>
   );

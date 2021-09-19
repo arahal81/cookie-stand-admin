@@ -1,4 +1,5 @@
 import Head from "next/head";
+
 import LoginForm from "../components/LoginForm";
 import CookieStandAdmin from "./CookieStandAdmin";
 import { useState } from "react";
@@ -28,4 +29,5 @@ export default function Home() {
   ) : (
     <LoginForm loginHandler={loginHandler} />
   );
+
 }

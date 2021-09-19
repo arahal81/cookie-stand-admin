@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 import {
@@ -37,6 +38,7 @@ export default function CookieStandAdmin(props) {
       minimum_customers_per_hour: event.target.minCustomers.value,
       maximum_customers_per_hour: event.target.maxCustomers.value,
       average_cookies_per_sale: event.target.avgCookies.value,
+
       hourly_sales: getCookieSalesHourly(
         event.target.minCustomers.value,
         event.target.maxCustomers.value,
@@ -44,6 +46,7 @@ export default function CookieStandAdmin(props) {
         timeSlot.length
       ),
     };
+
     console.log(values);
     const newStand = CookieStand.fromValues(values);
 
@@ -87,6 +90,7 @@ export default function CookieStandAdmin(props) {
   //   setStoresSalesAllHours([...storesSalesAllHours, newStore]);
   // }
 
+
   function getCookieSalesHourly(min, max, avg, length) {
     var store_sales = [];
     for (var i = 0; i < length; i++) {
@@ -117,7 +121,9 @@ export default function CookieStandAdmin(props) {
   }
 
   function getHourlySubtotals(hours, sales) {
+
     console.log(sales);
+
     var hourly_subtotals = [];
     for (var i = 0; i < hours.length; i++) {
       var hour_subtotal = 0;
@@ -143,6 +149,7 @@ export default function CookieStandAdmin(props) {
         <title>Cookie Stand Admin</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Header
         logoutHandler={props.logoutHandler}
         username={props.username}
@@ -167,6 +174,7 @@ export default function CookieStandAdmin(props) {
         )}
       />
       <Footer branshesNumber={cookieStands.length} />
+
     </div>
   );
 }
